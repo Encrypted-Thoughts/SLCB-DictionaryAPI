@@ -105,27 +105,31 @@ def Parse(parseString, userid, username, targetid, targetname, message):
 	    "useQueryString": True
     }
 
-    response = json.loads(json.loads(Parent.GetRequest("https://wordsapiv1.p.rapidapi.com/words/" + word, headers))["response"])
-
+    raw = json.loads(Parent.GetRequest("https://wordsapiv1.p.rapidapi.com/words/" + word, headers))
     if ScriptSettings.EnableDebug:
-        Parent.Log(ScriptName, str(response))
-
-    pronunciation = ""
-    if type(response["pronunciation"]) is str:
-        pronunciation = response["pronunciation"]
-    else:
-        pronunciation = response["pronunciation"][response["pronunciation"].keys()[0]]
-
-    returnMessage = pronunciation + ":"
-    count = 1
-    for result in response["results"]:
-        definition = " " + str(count) + ") " + result["partOfSpeech"] + " | " + result["definition"]
-        returnMessage += definition
-        count += 1
+        Parent.Log(ScriptName, str(raw))
     
-    if ScriptSettings.EnableLengthLimit:
-        returnMessage = returnMessage[:ScriptSettings.LengthLimit]
-    parseString = parseString.replace(item.group(), returnMessage)
+    try:
+        response = json.loads(raw["response"])
+
+        pronunciation = ""
+        if type(response["pronunciation"]) is str:
+            pronunciation = response["pronunciation"]
+        else:
+            pronunciation = response["pronunciation"][response["pronunciation"].keys()[0]]
+
+        returnMessage = pronunciation + ":"
+        count = 1
+        for result in response["results"]:
+            definition = " " + str(count) + ") " + result["partOfSpeech"] + " / " + result["definition"]
+            returnMessage += definition
+            count += 1
+    
+        if ScriptSettings.EnableLengthLimit:
+            returnMessage = returnMessage[:ScriptSettings.LengthLimit]
+        parseString = parseString.replace(item.group(), returnMessage)
+    except:
+        parseString = parseString.replace(item.group(), "Word not found.")
 
     return parseString
 
