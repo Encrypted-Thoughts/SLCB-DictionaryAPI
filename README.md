@@ -12,6 +12,17 @@ https://github.com/StreamlabsSupport/Streamlabs-Chatbot/wiki/Prepare-&-Import-Sc
 
 Click [Here](https://github.com/Encrypted-Thoughts/SLCB-WordsAPI/blob/master/WordsAPI.zip?raw=true) to download the script pack.
 
+In order to use this script you'll need to have an account with WordsAPI.
+https://rapidapi.com/dpventures/api/wordsapi/pricing
+You can register for a Free tier at the above link that will allow 2500 requests a day and charge $0.004 per request after that.
+
+Once registered you'll need to find your api key and enter it into the script settings.
+https://rapidapi.com/dpventures/api/wordsapi/endpoints
+
+![image](https://user-images.githubusercontent.com/50642352/85881019-8f996080-b7a2-11ea-8d4a-f95d019bde34.png)
+
+![image](https://user-images.githubusercontent.com/50642352/85881103-b8b9f100-b7a2-11ea-86a6-ba317c46196e.png)
+
 ## Use
 
 Once installed the below parameter can be inserted into custom commands created in SLCB.
