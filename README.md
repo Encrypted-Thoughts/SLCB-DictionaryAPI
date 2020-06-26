@@ -1,6 +1,6 @@
 # SLCB WordsAPI
 
-WOrdsAPI Parameter allows for creating custom commands to get WordsAPI info on 
+WordsAPI Parameter allows for creating custom commands to get WordsAPI info on 
 a word for use in custom commands as a parameter. Currently only defintions and pronunciation are returned
 but it could easily be expanded to return other information. (synonyms, antonyms, syllables, etc)
 
