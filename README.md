@@ -10,12 +10,18 @@ https://github.com/StreamlabsSupport/Streamlabs-Chatbot/wiki/Prepare-&-Import-Sc
 
 Click [Here](https://github.com/Encrypted-Thoughts/SLCB-DictionaryAPI/blob/master/DictionaryAPI.zip?raw=true) to download the script pack.
 
-In order to use this script you'll need to have an account with Rapid API.
-https://rapidapi.com/dpventures/api/wordsapi/pricing
-You can register for a Free tier at the above link that will allow 2500 requests a day and charge $0.004 per request after that.
+In order to use this script you'll need to have an account with Rapid API. <br />
 
-Once registered you'll need to find your api key and enter it into the script settings.
+WordsAPI: <br />
+You can register for a Free tier at the below link that will allow 2500 requests a day and charge $0.004 per request after that. <br />
+https://rapidapi.com/dpventures/api/wordsapi/pricing 
+
+Once registered you'll need to find your api key and enter it into the script settings. <br />
 https://rapidapi.com/dpventures/api/wordsapi/endpoints
+
+Urban Dictionary: <br />
+Same steps are with Words API except it has unlimited free requests. <br />
+https://rapidapi.com/community/api/urban-dictionary
 
 ![image](https://user-images.githubusercontent.com/50642352/85881019-8f996080-b7a2-11ea-8d4a-f95d019bde34.png)
 
