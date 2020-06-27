@@ -17,7 +17,7 @@ You can register for a Free tier at the above link that will allow 2500 requests
 Once registered you'll need to find your api key and enter it into the script settings.
 https://rapidapi.com/dpventures/api/wordsapi/endpoints
 
-![image](https://user-images.githubusercontent.com/50642352/85913417-33622b00-b7fa-11ea-8351-94b124f6d241.png)
+![image](https://user-images.githubusercontent.com/50642352/85881019-8f996080-b7a2-11ea-8d4a-f95d019bde34.png)
 
 ![image](https://user-images.githubusercontent.com/50642352/85881103-b8b9f100-b7a2-11ea-86a6-ba317c46196e.png)
 
