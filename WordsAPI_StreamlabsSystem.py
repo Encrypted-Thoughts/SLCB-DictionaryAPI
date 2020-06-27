@@ -85,7 +85,28 @@ def Parse(parseString, userid, username, targetid, targetname, message):
     if parseString == None:
         return
 
-    regex = "\$wordsapi\(\s*\p{L}+\s*\)" # !dictionary(string of any letters from any language)
+    parseString = ParseWordsAPI(parseString) # $wordsapi(string of any letters from any language,format string)
+
+    return parseString
+
+#---------------------------
+#   [Optional] Unload (Called when a user reloads their scripts or closes the bot / cleanup stuff)
+#---------------------------
+def Unload():
+    return
+
+#---------------------------
+#   [Optional] ScriptToggled (Notifies you when a user disables your script or enables it)
+#---------------------------
+def ScriptToggled(state):
+    return
+
+#---------------------------
+#   ScriptToggled (Notifies you when a user disables your script or enables it)
+#---------------------------
+def ParseWordsAPI(parseString):
+
+    regex = r"\$wordsapi\(\s*\p{L}+\s*\,.*\)" # $wordsapi(string of any letters from any language,format string)
 
     item = re.search(regex, parseString)
     if item is None:
@@ -94,7 +115,11 @@ def Parse(parseString, userid, username, targetid, targetname, message):
     if ScriptSettings.EnableDebug:
         Parent.Log(ScriptName, "WordsAPI request detected, guess we're about to learn once I parse this:  " + item.group())
 
-    word = item.group().strip()[10:][:-1]
+    rawArguments = item.group().strip()[10:][:-1]
+    args = rawArguments.split(",")
+        
+    word = args[0]
+    formatStr = args[1]
 
     if ScriptSettings.EnableDebug:
         Parent.Log(ScriptName, "Beseeching WordAPI for information on: " + word)
@@ -118,32 +143,28 @@ def Parse(parseString, userid, username, targetid, targetname, message):
         else:
             pronunciation = response["pronunciation"][response["pronunciation"].keys()[0]]
 
-        returnMessage = pronunciation + ":"
+        definitions = []
+        alldefinitions = ""
         count = 1
         for result in response["results"]:
-            definition = " " + str(count) + ") " + result["partOfSpeech"] + " / " + result["definition"]
-            returnMessage += definition
+            definition = result["partOfSpeech"] + " / " + result["definition"]
+            alldefinitions += str(count) + ") " + definition + " "
+            definitions.append(definition)
             count += 1
+
+        formatStr = formatStr.replace("{word}", response["word"])
+        formatStr = formatStr.replace("{pronunciation}", pronunciation)
+        formatStr = formatStr.replace("{definitions}", alldefinitions)
     
         if ScriptSettings.EnableLengthLimit:
-            returnMessage = returnMessage[:ScriptSettings.LengthLimit]
-        parseString = parseString.replace(item.group(), returnMessage)
+            formatStr = formatStr[:ScriptSettings.LengthLimit]
+        parseString = parseString.replace(item.group(), formatStr)
     except:
         parseString = parseString.replace(item.group(), "Word not found.")
 
     return parseString
 
-#---------------------------
-#   [Optional] Unload (Called when a user reloads their scripts or closes the bot / cleanup stuff)
-#---------------------------
-def Unload():
-    return
 
-#---------------------------
-#   [Optional] ScriptToggled (Notifies you when a user disables your script or enables it)
-#---------------------------
-def ScriptToggled(state):
-    return
 
 def openreadme():
     os.startfile(ReadMe)
