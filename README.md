@@ -48,7 +48,7 @@ Example Command: !command add !define $urban($msg, {word}: {definition} {link} {
 
 Example in twitch chat:
 
-![image](https://user-images.githubusercontent.com/50642352/85910515-f2abe700-b7e4-11ea-9e64-313ec7a90e18.png)
+![image](https://user-images.githubusercontent.com/50642352/85913422-483ebe80-b7fa-11ea-837f-e94690023a7d.png)
 <br/>
 ![image](https://user-images.githubusercontent.com/50642352/85913344-a7500380-b7f9-11ea-8629-6874b6e0f031.png)
 
