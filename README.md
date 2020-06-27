@@ -31,15 +31,16 @@ This allows long definitions to be limited so the bot doesn't spam chat with mul
 
 ```
 $wordsapi(
-    string   # Word: The word that the parameter should retrieve the definition of.
+    string   # Word: The word that the parameter should retrieve the definition.,
+    string   # Format String: the format the response will be returned in. Ex: {word} {pronunciation}: {definitions}
 )
 
-Example Command: !command add !define $wordsapi($msg)
+Example Command: !command add !define $wordsapi($msg, {word} {pronunciation}: {definitions})
 ```
 
 Example in twitch chat:
 
-![image](https://user-images.githubusercontent.com/50642352/85878542-7d1d2800-b79e-11ea-840a-f1d09cdf6654.png)
+![image](https://user-images.githubusercontent.com/50642352/85910515-f2abe700-b7e4-11ea-9e64-313ec7a90e18.png)
 
 ## Author
 
