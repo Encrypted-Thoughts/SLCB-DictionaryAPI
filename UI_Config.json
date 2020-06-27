@@ -14,12 +14,12 @@
 		"tooltip": "Limit for length of message in Stream chat. Ever 400 characters is a new message in chat for Twitch. 1795 for Discord.",
 		"group": ""
 	},
-	"WordsAPIKey": {
+	"RapidAPIKey": {
 		"type": "textbox",
 		"value": "",
-		"label": "Words API Key",
-		"tooltip": "Provide an api key for wordsapi.com.",
-		"group": "Words API Key - KEEP HIDDEN"
+		"label": "Rapid API Key",
+		"tooltip": "A Rapid api key is need to access WordAPI and/or Urban Dictionary API.",
+		"group": "API Key - KEEP HIDDEN"
 	},
 	"btnreadme": {
 		"type": "button",

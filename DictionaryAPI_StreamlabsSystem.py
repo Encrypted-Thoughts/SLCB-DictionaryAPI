@@ -3,16 +3,15 @@
 #---------------------------------------
 # Script Import Libraries
 #---------------------------------------
-import clr, codecs, json, os, re, sys
-
+import clr, codecs, json, os, re, sys, datetime
 clr.AddReference("IronPython.Modules.dll")
 
 #---------------------------------------
 # Script Information
 #---------------------------------------
-ScriptName = "WordsAPI Parameter"
+ScriptName = "Dictionary API Parameters"
 Website = "http://www.twitch.tv/EncryptedThoughts"
-Description = "Adds a $wordsapi parameter that gets word info from WordApi."
+Description = "Adds dictionary parameters that get word info from various dictionary apis."
 Creator = "EncryptedThoughts"
 Version = "1.0.0"
 
@@ -34,7 +33,7 @@ class Settings(object):
             self.EnableDebug = False
             self.EnableLengthLimit = True
             self.LengthLimit = 400
-            self.WordsAPIKey = None
+            self.RapidAPIKey = None
 
     def Reload(self, jsondata):
         self.__dict__ = json.loads(jsondata, encoding="utf-8")
@@ -87,6 +86,8 @@ def Parse(parseString, userid, username, targetid, targetname, message):
 
     parseString = ParseWordsAPI(parseString) # $wordsapi(string of any letters from any language,format string)
 
+    parseString = ParseUrbanAPI(parseString) # $urban(string of any letters from any language,format string)
+
     return parseString
 
 #---------------------------
@@ -124,13 +125,7 @@ def ParseWordsAPI(parseString):
     if ScriptSettings.EnableDebug:
         Parent.Log(ScriptName, "Beseeching WordAPI for information on: " + word)
 
-    headers = {
-        "x-rapidapi-host": "wordsapiv1.p.rapidapi.com",
-	    "x-rapidapi-key": ScriptSettings.WordsAPIKey,
-	    "useQueryString": True
-    }
-
-    raw = json.loads(Parent.GetRequest("https://wordsapiv1.p.rapidapi.com/words/" + word, headers))
+    raw = json.loads(Parent.GetRequest("https://wordsapiv1.p.rapidapi.com/words/" + word, { "x-rapidapi-key": ScriptSettings.RapidAPIKey }))
     if ScriptSettings.EnableDebug:
         Parent.Log(ScriptName, str(raw))
     
@@ -164,7 +159,54 @@ def ParseWordsAPI(parseString):
 
     return parseString
 
+#---------------------------
+#   ScriptToggled (Notifies you when a user disables your script or enables it)
+#---------------------------
+def ParseUrbanAPI(parseString):
 
+    regex = r"\$urban\(\s*\p{L}+\s*\,.*\)" # $urban(string of any letters from any language,format string)
+
+    item = re.search(regex, parseString)
+    if item is None:
+        return parseString
+
+    if ScriptSettings.EnableDebug:
+        Parent.Log(ScriptName, "Urban Dictionary request detected, is this even a real dictionary? " + item.group())
+
+    rawArguments = item.group().strip()[7:][:-1]
+    args = rawArguments.split(",")
+        
+    word = args[0]
+    formatStr = args[1]
+
+    if ScriptSettings.EnableDebug:
+        Parent.Log(ScriptName, "Beseeching Urban Dictionary for information on: " + word)\
+
+    raw = json.loads(Parent.GetRequest("https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=" + word, { "x-rapidapi-key": ScriptSettings.RapidAPIKey }))
+    if ScriptSettings.EnableDebug:
+        Parent.Log(ScriptName, str(raw))
+    
+    try:
+        response = json.loads(raw["response"])
+
+        first = response["list"][0]
+
+        formatStr = formatStr.replace("{word}", first["word"])
+        formatStr = formatStr.replace("{definition}", first["definition"])
+        formatStr = formatStr.replace("{link}", first["permalink"])
+        formatStr = formatStr.replace("{thumbs_up}", str(first["thumbs_up"]))
+        formatStr = formatStr.replace("{thumbs_down}", str(first["thumbs_down"]))
+        formatStr = formatStr.replace("{timestamp}", str(datetime.datetime.strptime(first["written_on"], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%m/%d/%Y %-I:%M:%S %p %Z")))
+        formatStr = formatStr.replace("{author}", first["author"])
+        formatStr = formatStr.replace("{example}", first["example"].replace("\r\n", " ").replace("\r", " ").replace("\n", " "))
+    
+        if ScriptSettings.EnableLengthLimit:
+            formatStr = formatStr[:ScriptSettings.LengthLimit]
+        parseString = parseString.replace(item.group(), formatStr)
+    except:
+        parseString = parseString.replace(item.group(), "Word not found.")
+
+    return parseString
 
 def openreadme():
     os.startfile(ReadMe)
