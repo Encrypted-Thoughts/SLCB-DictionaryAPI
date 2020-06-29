@@ -248,8 +248,15 @@ def ParseGoogleDictionaryAPI(parseString):
         for meaning in first["meanings"]:
             definitionStr = meaning["partOfSpeech"]
             for definition in meaning["definitions"]:
-                definitionStr += " / " + definition["definition"] +  " : " + definition["example"]
-                definitions.append(definition)
+                example = ""
+
+                try:
+                    example = definition["example"]
+                except:
+                    example = ""
+
+                definitionStr += " / " + definition["definition"] +  " : " + example
+                definitions.append({ "definition": definition["definition"], "example": example })
             alldefinitions += str(count) + ") " + definitionStr + " "
             count += 1
 
