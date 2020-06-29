@@ -109,7 +109,7 @@ def ScriptToggled(state):
 #---------------------------
 def ParseWordsAPI(parseString):
 
-    regex = r"\$wordsapi\(\s*\p{L}+\s*\,.*\)" # $wordsapi(string of any letters from any language,format string)
+    regex = r"\$wordsapi\(.*\,.*\)" # $wordsapi(string of any letters from any language,format string)
 
     item = re.search(regex, parseString)
     if item is None:
@@ -166,7 +166,7 @@ def ParseWordsAPI(parseString):
 #---------------------------
 def ParseUrbanAPI(parseString):
 
-    regex = r"\$urban\(\s*\p{L}+\s*\,.*\)" # $urban(string of any letters from any language,format string)
+    regex = r"\$urban\(.*\,.*\)" # $urban(string of any letters from any language,format string)
 
     item = re.search(regex, parseString)
     if item is None:
@@ -215,7 +215,7 @@ def ParseUrbanAPI(parseString):
 #---------------------------
 def ParseGoogleDictionaryAPI(parseString):
 
-    regex = r"\$google\(\s*\p{L}+\s*\,.*\)" # $google(string of any letters from any language,format string)
+    regex = r"\$google\(.*\,.*\)" # $google(string,format string)
 
     item = re.search(regex, parseString)
     if item is None:
