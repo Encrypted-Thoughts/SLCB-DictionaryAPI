@@ -248,15 +248,27 @@ def ParseGoogleDictionaryAPI(parseString):
         for meaning in first["meanings"]:
             definitionStr = meaning["partOfSpeech"]
             for definition in meaning["definitions"]:
-                 definitionStr += " / " + definition["definition"]
+                definitionStr += " / " + definition["definition"] +  " : " + definition["example"]
+                definitions.append(definition)
             alldefinitions += str(count) + ") " + definitionStr + " "
-            definitions.append(definitionStr)
             count += 1
+
+        origin = ""
+        try:
+            origin = first["origin"]
+        except:
+            origin = ""
 
         formatStr = formatStr.replace("{word}", first["word"])
         formatStr = formatStr.replace("{pronunciation}", first["phonetic"])
-        formatStr = formatStr.replace("{origin}", first["origin"])
+        formatStr = formatStr.replace("{origin}", origin)
         formatStr = formatStr.replace("{definitions}", alldefinitions)
+
+        count = 1
+        for definition in definitions:
+            formatStr = formatStr.replace("{definition_" + str(count) + "}", definition["definition"])
+            formatStr = formatStr.replace("{example_" + str(count) + "}", definition["example"])
+            count += 1
     
         if ScriptSettings.EnableLengthLimit:
             formatStr = formatStr[:ScriptSettings.LengthLimit]
