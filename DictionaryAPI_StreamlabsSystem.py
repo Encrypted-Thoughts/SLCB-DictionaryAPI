@@ -88,6 +88,8 @@ def Parse(parseString, userid, username, targetid, targetname, message):
 
     parseString = ParseUrbanAPI(parseString) # $urban(string of any letters from any language,format string)
 
+    parseString = ParseGoogleDictionaryAPI(parseString) # $google(string of any letters from any language,format string)
+
     return parseString
 
 #---------------------------
@@ -199,6 +201,62 @@ def ParseUrbanAPI(parseString):
         formatStr = formatStr.replace("{timestamp}", str(datetime.datetime.strptime(first["written_on"], "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%m/%d/%Y %-I:%M:%S %p %Z")))
         formatStr = formatStr.replace("{author}", first["author"])
         formatStr = formatStr.replace("{example}", first["example"].replace("\r\n", " ").replace("\r", " ").replace("\n", " "))
+    
+        if ScriptSettings.EnableLengthLimit:
+            formatStr = formatStr[:ScriptSettings.LengthLimit]
+        parseString = parseString.replace(item.group(), formatStr)
+    except:
+        parseString = parseString.replace(item.group(), "Word not found.")
+
+    return parseString
+
+#---------------------------
+#   ScriptToggled (Notifies you when a user disables your script or enables it)
+#---------------------------
+def ParseGoogleDictionaryAPI(parseString):
+
+    regex = r"\$google\(\s*\p{L}+\s*\,.*\)" # $google(string of any letters from any language,format string)
+
+    item = re.search(regex, parseString)
+    if item is None:
+        return parseString
+
+    if ScriptSettings.EnableDebug:
+        Parent.Log(ScriptName, "Google Dictionary request detected, is this even a real dictionary? " + item.group())
+
+    rawArguments = item.group().strip()[8:][:-1]
+    args = rawArguments.split(",")
+        
+    word = args[0]
+    formatStr = args[1]
+
+    if ScriptSettings.EnableDebug:
+        Parent.Log(ScriptName, "Beseeching Google Dictionary for information on: " + word)
+
+    raw = json.loads(Parent.GetRequest("https://api.dictionaryapi.dev/api/v2/entries/en/" + word, { }))
+    if ScriptSettings.EnableDebug:
+        Parent.Log(ScriptName, str(raw))
+    
+    try:
+        response = json.loads(raw["response"])
+
+        first = response[0]
+
+        definitions = []
+        alldefinitions = ""
+        count = 1
+        for meaning in first["meanings"]:
+            definitionStr = meaning["partOfSpeech"]
+            for definition in meaning["definitions"]:
+                 definitionStr += " / " + definition["definition"]
+            alldefinitions += str(count) + ") " + definitionStr + " "
+            definitions.append(definitionStr)
+            count += 1
+
+        formatStr = formatStr.replace("{word}", first["word"])
+        formatStr = formatStr.replace("{pronunciation}", first["phonetic"])
+        formatStr = formatStr.replace("{origin}", first["origin"])
+        formatStr = formatStr.replace("{definitions}", alldefinitions)
     
         if ScriptSettings.EnableLengthLimit:
             formatStr = formatStr[:ScriptSettings.LengthLimit]
