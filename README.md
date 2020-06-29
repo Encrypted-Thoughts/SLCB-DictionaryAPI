@@ -41,8 +41,8 @@ $google(
              # EX: {word} {pronunciation} : {origin} : {definition_n} Ex: {example_n}
 )
 
-Example Command: !command add !define $google($msg, {word} {pronunciation} : {origin} : {definitions})
-Example Command: !command add !define $google($msg, {word} {pronunciation} : {origin} : {definition_1} Ex: {example_1})
+Example Command: !command add !define $google($arg1, {word} {pronunciation} : {origin} : {definitions})
+Example Command: !command add !define $google($arg1, {word} {pronunciation} : {origin} : {definition_1} Ex: {example_1})
 ```
 ```
 $wordsapi(
@@ -51,7 +51,7 @@ $wordsapi(
              # Ex: {word} {pronunciation}: {definitions}
 )
 
-Example Command: !command add !define $wordsapi($msg, {word} {pronunciation}: {definitions})
+Example Command: !command add !define $wordsapi($arg1, {word} {pronunciation}: {definitions})
 ```
 ```
 $urban(
@@ -60,7 +60,7 @@ $urban(
              # Ex: {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example}
 )
 
-Example Command: !command add !define $urban($msg, {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example})
+Example Command: !command add !define $urban($arg1, {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example})
 ```
 
 Examples in twitch chat:
