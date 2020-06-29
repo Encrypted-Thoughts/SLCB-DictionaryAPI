@@ -38,9 +38,11 @@ $google(
     string   # Word: The word that the parameter should retrieve the definition.,
     string   # Format String: the format the response will be returned in. 
              # Ex: {word} {pronunciation} : {origin} : {definitions}
+             # EX: {word} {pronunciation} : {origin} : {definition_n} Ex: {example_n}
 )
 
-Example Command: !command add !define !google($msg, {word} {pronunciation} : {origin} : {definitions})
+Example Command: !command add !define $google($msg, {word} {pronunciation} : {origin} : {definitions})
+Example Command: !command add !define $google($msg, {word} {pronunciation} : {origin} : {definition_1} Ex: {example_1})
 ```
 ```
 $wordsapi(
@@ -49,7 +51,7 @@ $wordsapi(
              # Ex: {word} {pronunciation}: {definitions}
 )
 
-Example Command: !command add !define !wordsapi($msg, {word} {pronunciation}: {definitions})
+Example Command: !command add !define $wordsapi($msg, {word} {pronunciation}: {definitions})
 ```
 ```
 $urban(
@@ -58,7 +60,7 @@ $urban(
              # Ex: {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example}
 )
 
-Example Command: !command add !define !urban($msg, {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example})
+Example Command: !command add !define $urban($msg, {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example})
 ```
 
 Examples in twitch chat:
