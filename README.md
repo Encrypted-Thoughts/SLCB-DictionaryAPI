@@ -10,7 +10,7 @@ https://github.com/StreamlabsSupport/Streamlabs-Chatbot/wiki/Prepare-&-Import-Sc
 
 Click [Here](https://github.com/Encrypted-Thoughts/SLCB-DictionaryAPI/blob/master/DictionaryAPI.zip?raw=true) to download the script pack.
 
-In order to use this script you'll need to have an account with Rapid API. <br />
+In order to use this script to get data from WordsAPI or Urban Dictionary you'll need to have an account with Rapid API. <br />
 
 WordsAPI: <br />
 You can register for a Free tier at the below link that will allow 2500 requests a day and charge $0.004 per request after that. <br />
@@ -34,6 +34,15 @@ In custom script parameters a character length on definition can be set.
 This allows long definitions to be limited so the bot doesn't spam chat with multiple messages.
 
 ```
+$google(
+    string   # Word: The word that the parameter should retrieve the definition.,
+    string   # Format String: the format the response will be returned in. 
+             # Ex: {word} {pronunciation} : {origin} : {definitions}
+)
+
+Example Command: !command add !define $google($msg, {word} {pronunciation} : {origin} : {definitions})
+```
+```
 $wordsapi(
     string   # Word: The word that the parameter should retrieve the definition.,
     string   # Format String: the format the response will be returned in. 
@@ -52,8 +61,10 @@ $urban(
 Example Command: !command add !define $urban($msg, {word}: {definition} {link} {thumbs_up} {thumbs_down} {timestamp} {author} {example})
 ```
 
-Example in twitch chat:
+Examples in twitch chat:
 
+![image](https://user-images.githubusercontent.com/50642352/85969733-19f1e800-b98e-11ea-998d-2904a9b20b58.png)
+<br/>
 ![image](https://user-images.githubusercontent.com/50642352/85913422-483ebe80-b7fa-11ea-837f-e94690023a7d.png)
 <br/>
 ![image](https://user-images.githubusercontent.com/50642352/85913344-a7500380-b7f9-11ea-8629-6874b6e0f031.png)
