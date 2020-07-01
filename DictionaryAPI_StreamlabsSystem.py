@@ -277,6 +277,9 @@ def ParseGoogleDictionaryAPI(parseString):
             formatStr = formatStr.replace("{example_" + str(count) + "}", definition["example"])
             count += 1
     
+        formatStr = re.sub(r'{definition_.*}', '', formatStr)
+        formatStr = re.sub(r'{example_.*}', '', formatStr)
+
         if ScriptSettings.EnableLengthLimit:
             formatStr = formatStr[:ScriptSettings.LengthLimit]
         parseString = parseString.replace(item.group(), formatStr)
